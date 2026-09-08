@@ -13,26 +13,39 @@ const EXTENSIONS: Record<string, string> = {
 };
 
 const TOKEN_SUFFIX = "BLOB_READ_WRITE_TOKEN";
+const STORE_ID_SUFFIX = "BLOB_STORE_ID";
 
 /**
- * The read/write token for the Vercel Blob store.
+ * Vercel Blob accepts either of two credentials, and which one you get depends
+ * on when the store was made:
  *
- * Vercel normally injects it as BLOB_READ_WRITE_TOKEN, but if a prefix is
- * chosen while connecting the store it becomes PREFIX_BLOB_READ_WRITE_TOKEN
- * instead, so any variable ending in that name counts.
+ *  - a read/write token (BLOB_READ_WRITE_TOKEN), the original scheme; or
+ *  - a store id (BLOB_STORE_ID) plus the OIDC token Vercel injects into every
+ *    function at runtime, which is what newer stores are given.
+ *
+ * Connecting a store with an environment-variable prefix renames these to
+ * PREFIX_BLOB_READ_WRITE_TOKEN / PREFIX_BLOB_STORE_ID, so match on the suffix.
  */
-export function blobToken(): string | undefined {
-  const direct = process.env[TOKEN_SUFFIX];
+function envEndingWith(suffix: string): string | undefined {
+  const direct = process.env[suffix];
   if (direct) return direct;
 
   for (const [key, value] of Object.entries(process.env)) {
-    if (value && key.endsWith(TOKEN_SUFFIX)) return value;
+    if (value && key.endsWith(suffix)) return value;
   }
   return undefined;
 }
 
+export function blobToken(): string | undefined {
+  return envEndingWith(TOKEN_SUFFIX);
+}
+
+export function blobStoreId(): string | undefined {
+  return envEndingWith(STORE_ID_SUFFIX);
+}
+
 export function blobConfigured(): boolean {
-  return Boolean(blobToken());
+  return Boolean(blobToken() || blobStoreId());
 }
 
 /** Names only, never values — so a failed upload can say what the app can see. */
@@ -72,14 +85,17 @@ export async function saveUpload(file: File): Promise<string> {
   }`;
 
   const token = blobToken();
+  const storeId = blobStoreId();
 
-  if (token) {
+  if (token || storeId) {
     const { put } = await import("@vercel/blob");
     const blob = await put(`inanna/${filename}`, file, {
       access: "public",
       contentType: file.type,
       addRandomSuffix: false,
-      token,
+      // A token wins if there is one; otherwise the store id pairs with the
+      // OIDC token Vercel provides at runtime.
+      ...(token ? { token } : { storeId }),
     });
     return blob.url;
   }
@@ -87,7 +103,7 @@ export async function saveUpload(file: File): Promise<string> {
   if (process.env.NODE_ENV === "production") {
     const seen = visibleBlobVars();
     throw new Error(
-      "Image uploads are not configured — no BLOB_READ_WRITE_TOKEN reached the site. " +
+      "Image uploads are not configured — the site can see neither a Blob token nor a store id. " +
         (seen.length > 0
           ? `Blob variables it can see: ${seen.join(", ")}. Connect the Blob store to this project, then redeploy.`
           : "It can see no Blob variables at all, so either the store is not connected to this project or the site has not been redeployed since it was."),
