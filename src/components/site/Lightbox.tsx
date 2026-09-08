@@ -72,13 +72,16 @@ export function GalleryGrid({ images }: { images: LightboxImage[] }) {
             <span className="sr-only">
               View larger: {image.caption || image.imageAlt || `photograph ${index + 1}`}
             </span>
+            {/* No width/height attributes: photographs arrive in every shape and
+                a fixed pair would give the browser a box to crop them into.
+                Sizing from the image's own proportions keeps each one whole. */}
             <Image
               src={image.imageUrl}
               alt={image.imageAlt || image.caption || `Inside the shop, photograph ${index + 1}`}
-              width={900}
-              height={1200}
+              width={0}
+              height={0}
               sizes="(min-width: 768px) 30vw, 45vw"
-              className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
             {image.caption && (
               <span className="block px-1 pt-2 text-left text-xs text-charcoal-muted">
