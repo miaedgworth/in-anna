@@ -30,6 +30,11 @@ in the shop.
 (`ClothingStore`) JSON-LD with the address, phone, hours and geo are generated
 automatically.
 
+> **Setting this up for the first time?** Follow
+> [GOING-LIVE.md](./GOING-LIVE.md) — a click-by-click walkthrough from an empty
+> Vercel account to a live site on the real domain. The rest of this file is
+> the shorter reference version.
+
 ---
 
 ## Running it locally
