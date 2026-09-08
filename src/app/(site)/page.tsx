@@ -19,27 +19,19 @@ export default async function HomePage() {
     <>
       {/* ------------------------------------------------------------ hero */}
       <section className="relative flex h-[calc(100svh-var(--header-h))] min-h-[26rem] w-full items-center justify-center overflow-hidden">
-        {/* On wide screens the photograph is shown whole rather than cropped, so
-            the bags on the lower rail stay in frame. A blurred copy fills
-            whatever is left at the sides instead of flat letterbox bars. */}
+        {/* interior-wide.jpg is the shop photograph on a wider canvas, its plain
+            side walls carried outward. That lets the hero fill the screen edge
+            to edge while only ever cropping into the extension, so the rails,
+            the pendant lights and the bags below all stay in frame. */}
         <Image
-          src="/brand/interior.jpg"
-          alt=""
-          aria-hidden="true"
-          fill
-          sizes="100vw"
-          quality={25}
-          className="hidden scale-110 object-cover blur-2xl lg:block"
-        />
-        <Image
-          src="/brand/interior.jpg"
+          src="/brand/interior-wide.jpg"
           alt="Inside Inanna: rails of womenswear beneath pleated paper pendant lights"
           fill
           priority
           fetchPriority="high"
           sizes="100vw"
           quality={72}
-          className="object-cover lg:object-contain"
+          className="object-cover"
         />
         <div
           aria-hidden="true"
