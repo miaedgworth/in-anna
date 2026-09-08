@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Inanna — brand tokens, sampled from the shopfront: dusty rose walls, brushed
+   gold lettering, blush-cream interior, charcoal type.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-rose: #c98a8e;
+  --color-rose-light: #d4a0a3;
+  --color-rose-dark: #94585c;
+  --color-gold: #c9a85c;
+  --color-gold-light: #ddc48a;
+  --color-gold-dark: #9d7f3c;
+  --color-blush: #f4e9e6;
+  --color-cream: #fbf6f4;
+  --color-charcoal: #2e2a28;
+  --color-charcoal-muted: #6b615d;
+  --color-line: #e3d4cf;
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --tracking-wordmark: 0.02em;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-rose);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-dark);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* The wordmark: lowercase serif with brushed-gold colouring. */
+  .wordmark {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wordmark);
+    text-transform: lowercase;
+    background-image: linear-gradient(
+      100deg,
+      #a8873f 0%,
+      #d9c084 24%,
+      #c9a85c 48%,
+      #efdda8 66%,
+      #b08f4a 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Small caps label used above section headings. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-rose-dark);
+  }
+
+  /* Cormorant defaults to old-style figures; prices read better lining. */
+  .lining-nums {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum" 1;
+  }
+
+  .hairline {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Admin area. Deliberately plain: high-contrast, large tap targets, system
+   sans — the owner uses this on a phone in the shop.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .admin {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: #0f172a;
+  }
+
+  /* The public site's serif headings would be out of place here. */
+  .admin h1,
+  .admin h2,
+  .admin h3,
+  .admin h4 {
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .admin-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .admin-input,
+  .admin-select,
+  .admin-textarea {
+    margin-top: 0.25rem;
+    display: block;
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background: #fff;
+    padding: 0.625rem 0.75rem;
+    font-size: 1rem; /* 16px keeps iOS from zooming on focus */
+    line-height: 1.5;
+    color: #0f172a;
+  }
+
+  .admin-textarea {
+    resize: vertical;
+  }
+
+  .admin-input:focus,
+  .admin-select:focus,
+  .admin-textarea:focus {
+    border-color: #0f172a;
+    outline: 2px solid #0f172a;
+    outline-offset: 1px;
+  }
+
+  .admin-button,
+  .admin-button-secondary,
+  .admin-button-quiet,
+  .admin-button-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .admin-button {
+    background: #0f172a;
+    color: #fff;
+    border: 1px solid #0f172a;
+  }
+  .admin-button:hover:not(:disabled) {
+    background: #1e293b;
+  }
+
+  .admin-button-secondary {
+    background: #fff;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+  }
+  .admin-button-secondary:hover:not(:disabled) {
+    border-color: #0f172a;
+  }
+
+  .admin-button-quiet {
+    background: transparent;
+    color: #475569;
+    border: 1px solid transparent;
+    font-weight: 500;
+  }
+  .admin-button-quiet:hover:not(:disabled) {
+    color: #0f172a;
+    text-decoration: underline;
+  }
+
+  .admin-button-danger {
+    background: #fff;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+  }
+  .admin-button-danger:hover:not(:disabled) {
+    background: #fef2f2;
+    border-color: #b91c1c;
+  }
+
+  .admin-button:disabled,
+  .admin-button-secondary:disabled,
+  .admin-button-quiet:disabled,
+  .admin-button-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .admin-icon-button {
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    background: #fff;
+    color: #334155;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  .admin-icon-button:hover:not(:disabled) {
+    border-color: #94a3b8;
+  }
+  .admin-icon-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .admin-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,79 @@
+// Inanna Boutique — data model
+// Postgres (Neon) via Prisma.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// The single admin account for the boutique owner.
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// A label/designer stocked by the boutique.
+model Brand {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  description String?
+  imageUrl    String?
+  imageAlt    String?
+  websiteUrl  String?
+  sortOrder   Int          @default(0)
+  visible     Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  items       NewInItem[]
+
+  @@index([sortOrder])
+}
+
+/// A new arrival shown on the New In page (and optionally the home page strip).
+model NewInItem {
+  id        String   @id @default(cuid())
+  title     String
+  brandId   String?
+  brand     Brand?   @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  imageUrl  String
+  imageAlt  String?
+  price     String?
+  note      String?
+  featured  Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+  @@index([createdAt])
+}
+
+/// A photograph of the shop or its stock.
+model GalleryImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  caption   String?
+  imageAlt  String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+/// Free-form key/value store for editable site copy (tagline, intro, socials...).
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
