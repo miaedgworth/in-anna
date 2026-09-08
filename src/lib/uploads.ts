@@ -41,6 +41,14 @@ export function blobToken(): string | undefined {
 }
 
 export function blobStoreId(): string | undefined {
+  // Explicit override first. If more than one Blob store is connected to the
+  // project, only one of them gets the plain BLOB_STORE_ID name and the rest
+  // are prefixed, so there is no reliable way to tell from the names alone
+  // which store is which. Setting INANNA_BLOB_STORE_ID to the id shown on the
+  // store's page in Vercel removes the guesswork.
+  const explicit = process.env.INANNA_BLOB_STORE_ID?.trim();
+  if (explicit) return explicit;
+
   return envEndingWith(STORE_ID_SUFFIX);
 }
 
