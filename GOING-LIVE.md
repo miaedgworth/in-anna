@@ -6,6 +6,15 @@ before.
 
 Roughly 45 minutes, most of it waiting for things to deploy.
 
+> **Some of this is already done.** The Neon database has been created, the
+> tables built, and the placeholder content seeded — so **step 6 and step 9 are
+> complete**, and you can skip them. The Vercel project `inanna-boutique`
+> exists, is linked to this repository, and has its environment variables set.
+>
+> What is left: the Blob store (step 7), the first deployment (step 10), the
+> contact form (step 11), the real photographs (step 12), your real content
+> (step 13) and the domain (step 14).
+
 **Contents**
 
 1. [What you need before you start](#1-what-you-need-before-you-start)
@@ -194,6 +203,12 @@ empty New In, Brands and Gallery sections.
 
 ## 6. Create the database (Neon)
 
+> ✅ **Already done.** The project `inanna-boutique` exists in the Neon account
+> (London / eu-west-2, free plan), with all six tables created, the initial
+> migration recorded, and the placeholder brands, gallery photograph and site
+> settings seeded. `DATABASE_URL` and `DIRECT_URL` are already set in Vercel.
+> Read on only if you ever need to rebuild it from scratch.
+
 1. In your new Vercel project, open the **Storage** tab.
 2. Click **Create Database** → choose **Neon** (Serverless Postgres) →
    **Continue**.
@@ -277,6 +292,10 @@ structured data Google reads.
 
 ## 9. Create the database tables
 
+> ✅ **Already done** — the tables exist and are seeded. Keep this section for
+> the day you need a second database (a staging copy, say), or if you ever
+> reset the current one.
+
 The database exists but is empty. This step creates the tables.
 
 Go back to your terminal from step 3.
@@ -343,11 +362,18 @@ safe to run more than once — it never overwrites anything you have edited.
 
 ## 10. Deploy and sign in
 
+Vercel builds a production deployment whenever something is pushed to the
+production branch — which for this project is
+`claude/inanna-boutique-website-marx46`. If the project Overview says
+**"No Production Deployment"**, nothing has been pushed since the repository
+was connected, and the fix is simply to push a commit.
+
 1. In Vercel, go to the **Deployments** tab.
-2. On the most recent deployment click the **⋯** menu → **Redeploy** →
+2. If a deployment is already listed, click the **⋯** menu → **Redeploy** →
    **Redeploy**. This is needed because a deployment keeps the environment
-   variables it was created with, and you have added several since the first
-   build.
+   variables it was created with, so anything added since its build is invisible
+   to it. If the list is empty, push any commit to the production branch
+   instead.
 3. Wait for it to go green.
 4. Click **Visit** — the public site should now show the six placeholder brands
    and the interior photograph in the gallery.
