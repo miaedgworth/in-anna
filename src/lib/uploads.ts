@@ -12,8 +12,34 @@ const EXTENSIONS: Record<string, string> = {
   "image/avif": "avif",
 };
 
+const TOKEN_SUFFIX = "BLOB_READ_WRITE_TOKEN";
+
+/**
+ * The read/write token for the Vercel Blob store.
+ *
+ * Vercel normally injects it as BLOB_READ_WRITE_TOKEN, but if a prefix is
+ * chosen while connecting the store it becomes PREFIX_BLOB_READ_WRITE_TOKEN
+ * instead, so any variable ending in that name counts.
+ */
+export function blobToken(): string | undefined {
+  const direct = process.env[TOKEN_SUFFIX];
+  if (direct) return direct;
+
+  for (const [key, value] of Object.entries(process.env)) {
+    if (value && key.endsWith(TOKEN_SUFFIX)) return value;
+  }
+  return undefined;
+}
+
 export function blobConfigured(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(blobToken());
+}
+
+/** Names only, never values — so a failed upload can say what the app can see. */
+function visibleBlobVars(): string[] {
+  return Object.keys(process.env)
+    .filter((key) => key.toUpperCase().includes("BLOB"))
+    .sort();
 }
 
 function safeStem(name: string): string {
@@ -45,19 +71,26 @@ export async function saveUpload(file: File): Promise<string> {
     EXTENSIONS[file.type] ?? "jpg"
   }`;
 
-  if (blobConfigured()) {
+  const token = blobToken();
+
+  if (token) {
     const { put } = await import("@vercel/blob");
     const blob = await put(`inanna/${filename}`, file, {
       access: "public",
       contentType: file.type,
       addRandomSuffix: false,
+      token,
     });
     return blob.url;
   }
 
   if (process.env.NODE_ENV === "production") {
+    const seen = visibleBlobVars();
     throw new Error(
-      "Image uploads are not configured. Add BLOB_READ_WRITE_TOKEN to the environment.",
+      "Image uploads are not configured — no BLOB_READ_WRITE_TOKEN reached the site. " +
+        (seen.length > 0
+          ? `Blob variables it can see: ${seen.join(", ")}. Connect the Blob store to this project, then redeploy.`
+          : "It can see no Blob variables at all, so either the store is not connected to this project or the site has not been redeployed since it was."),
     );
   }
 
