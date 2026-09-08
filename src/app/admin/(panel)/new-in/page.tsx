@@ -25,8 +25,7 @@ export default async function AdminNewInPage() {
       <section>
         <h2 className="text-lg font-semibold">New In</h2>
         <p className="mt-1 text-sm text-slate-600">
-          Newest pieces first. Tick &ldquo;Feature on the home page&rdquo; to show a piece in the
-          home page strip.
+          Newest pieces first. Drag a row, or use the arrows, to change the order they appear in.
         </p>
       </section>
 
@@ -65,11 +64,6 @@ export default async function AdminNewInPage() {
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold">
                     {item.title}
-                    {item.featured && (
-                      <span className="ml-2 inline-block whitespace-nowrap rounded bg-emerald-100 px-1.5 py-0.5 text-[11px] font-medium text-emerald-800">
-                        On home page
-                      </span>
-                    )}
                   </p>
                   <p className="mt-0.5 text-sm text-slate-600">
                     {[item.brand?.name, item.price].filter(Boolean).join(" · ") || "—"}
@@ -98,7 +92,6 @@ export default async function AdminNewInPage() {
                       imageAlt: item.imageAlt,
                       price: item.price,
                       note: item.note,
-                      featured: item.featured,
                     }}
                   />
                 </div>

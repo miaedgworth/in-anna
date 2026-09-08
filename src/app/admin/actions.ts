@@ -132,7 +132,6 @@ const newInSchema = z.object({
   imageAlt: optionalText,
   price: optionalText,
   note: optionalText,
-  featured: z.boolean(),
 });
 
 function readNewIn(formData: FormData) {
@@ -143,7 +142,6 @@ function readNewIn(formData: FormData) {
     imageAlt: String(formData.get("imageAlt") ?? ""),
     price: String(formData.get("price") ?? ""),
     note: String(formData.get("note") ?? ""),
-    featured: formData.get("featured") === "on" || formData.get("featured") === "true",
   });
 }
 

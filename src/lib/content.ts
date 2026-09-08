@@ -46,30 +46,6 @@ export const getNewInItems = unstable_cache(
   { tags: [CACHE_TAGS.newIn, CACHE_TAGS.brands], revalidate: 300 },
 );
 
-export const getFeaturedNewIn = unstable_cache(
-  async () =>
-    safely(async () => {
-      const featured = await prisma.newInItem.findMany({
-        where: { featured: true },
-        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-        include: { brand: { select: { name: true, slug: true } } },
-        take: 4,
-      });
-      if (featured.length >= 4) return featured;
-
-      // Top up with the most recent items so the strip is never half empty.
-      const fill = await prisma.newInItem.findMany({
-        where: { id: { notIn: featured.map((i) => i.id) } },
-        orderBy: [{ createdAt: "desc" }],
-        include: { brand: { select: { name: true, slug: true } } },
-        take: 4 - featured.length,
-      });
-      return [...featured, ...fill];
-    }, []),
-  ["new-in-featured"],
-  { tags: [CACHE_TAGS.newIn, CACHE_TAGS.brands], revalidate: 300 },
-);
-
 export const getGalleryImages = unstable_cache(
   async () =>
     safely(
@@ -80,6 +56,21 @@ export const getGalleryImages = unstable_cache(
       [],
     ),
   ["gallery-all"],
+  { tags: [CACHE_TAGS.gallery], revalidate: 300 },
+);
+
+/** The first few gallery photographs, for the strip on the home page. */
+export const getHomeGallery = unstable_cache(
+  async () =>
+    safely(
+      () =>
+        prisma.galleryImage.findMany({
+          orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+          take: 4,
+        }),
+      [],
+    ),
+  ["gallery-home"],
   { tags: [CACHE_TAGS.gallery], revalidate: 300 },
 );
 

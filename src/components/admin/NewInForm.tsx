@@ -13,7 +13,6 @@ export type NewInValues = {
   imageAlt: string | null;
   price: string | null;
   note: string | null;
-  featured: boolean;
 };
 
 export type BrandOption = { id: string; name: string };
@@ -110,15 +109,6 @@ export function NewInForm({ item, brands }: { item?: NewInValues; brands: BrandO
         />
       </div>
 
-      <label className="flex items-center gap-3 text-sm">
-        <input
-          name="featured"
-          type="checkbox"
-          defaultChecked={item?.featured ?? false}
-          className="h-5 w-5"
-        />
-        Feature on the home page
-      </label>
 
       <SubmitButton>{editing ? "Save changes" : "Add to New In"}</SubmitButton>
     </form>

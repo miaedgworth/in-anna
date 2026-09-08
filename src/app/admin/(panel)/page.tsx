@@ -4,16 +4,15 @@ import { blobConfigured } from "@/lib/uploads";
 
 async function counts() {
   try {
-    const [brands, hiddenBrands, items, featured, gallery] = await Promise.all([
+    const [brands, hiddenBrands, items, gallery] = await Promise.all([
       prisma.brand.count(),
       prisma.brand.count({ where: { visible: false } }),
       prisma.newInItem.count(),
-      prisma.newInItem.count({ where: { featured: true } }),
       prisma.galleryImage.count(),
     ]);
-    return { brands, hiddenBrands, items, featured, gallery, error: false };
+    return { brands, hiddenBrands, items, gallery, error: false };
   } catch {
-    return { brands: 0, hiddenBrands: 0, items: 0, featured: 0, gallery: 0, error: true };
+    return { brands: 0, hiddenBrands: 0, items: 0, gallery: 0, error: true };
   }
 }
 
@@ -24,7 +23,7 @@ export default async function AdminDashboard() {
     {
       href: "/admin/new-in",
       title: "New In",
-      body: `${data.items} ${data.items === 1 ? "piece" : "pieces"}, ${data.featured} featured on the home page`,
+      body: `${data.items} ${data.items === 1 ? "piece" : "pieces"} listed`,
       cta: "Add or edit arrivals",
     },
     {
@@ -38,7 +37,7 @@ export default async function AdminDashboard() {
     {
       href: "/admin/gallery",
       title: "Gallery",
-      body: `${data.gallery} ${data.gallery === 1 ? "photograph" : "photographs"}`,
+      body: `${data.gallery} ${data.gallery === 1 ? "photograph" : "photographs"} — the first four also appear on the home page`,
       cta: "Upload photographs",
     },
     {
@@ -81,8 +80,8 @@ export default async function AdminDashboard() {
         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
           <li>Photos are shrunk automatically before uploading — shoot straight from your phone.</li>
           <li>
-            Tick <strong>Feature on home page</strong> on a New In piece to put it in the strip on
-            the home page.
+            The first four photographs in the Gallery are the ones shown on the home page — drag
+            them to the top to change which.
           </li>
           <li>Drag a row, or use the ↑ / ↓ buttons, to change the order things appear in.</li>
           <li>Changes go live on the site within a few seconds.</li>

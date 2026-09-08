@@ -1,17 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { EmptyState } from "@/components/site/EmptyState";
-import { NewInCard } from "@/components/site/NewInCard";
 import { AddressBlock, HoursTable, MapEmbed } from "@/components/site/VisitDetails";
 import { Wordmark } from "@/components/site/Wordmark";
 import { business } from "@/lib/business";
-import { getFeaturedNewIn, getVisibleBrands } from "@/lib/content";
+import { getHomeGallery, getVisibleBrands } from "@/lib/content";
 import { getSettings } from "@/lib/settings";
 
 export default async function HomePage() {
-  const [settings, newIn, brands] = await Promise.all([
+  const [settings, photographs, brands] = await Promise.all([
     getSettings(),
-    getFeaturedNewIn(),
+    getHomeGallery(),
     getVisibleBrands(),
   ]);
 
@@ -74,38 +73,54 @@ export default async function HomePage() {
         </p>
       </section>
 
-      {/* ------------------------------------------------------- new in */}
+      {/* ------------------------------------------------------ gallery */}
       <section className="bg-blush py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow">Just arrived</p>
-              <h2 className="mt-3 text-4xl sm:text-5xl">New in</h2>
+              <p className="eyebrow">Inside the shop</p>
+              <h2 className="mt-3 text-4xl sm:text-5xl">A look around</h2>
             </div>
             <Link
-              href="/new-in"
+              href="/gallery"
               className="border-b border-gold pb-0.5 text-[0.8125rem] uppercase tracking-[0.18em] transition-colors hover:text-rose-dark"
             >
-              See everything
+              See more photographs
             </Link>
           </div>
 
           <div className="mt-12">
-            {newIn.length === 0 ? (
+            {photographs.length === 0 ? (
               <EmptyState>
-                New arrivals will appear here as soon as they are added in the admin area.
+                Photographs of the shop will appear here once they are added in the admin area.
               </EmptyState>
             ) : (
-              <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
-                {newIn.map((item, index) => (
-                  <NewInCard
-                    key={item.id}
-                    item={item}
-                    priority={index < 2}
-                    sizes="(min-width: 1024px) 18rem, (min-width: 640px) 30vw, 45vw"
-                  />
+              <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+                {photographs.map((photograph, index) => (
+                  <li key={photograph.id}>
+                    <Link href="/gallery" className="group block">
+                      <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
+                        <Image
+                          src={photograph.imageUrl}
+                          alt={
+                            photograph.imageAlt ||
+                            photograph.caption ||
+                            `Inside the Inanna shop, photograph ${index + 1}`
+                          }
+                          fill
+                          sizes="(min-width: 1024px) 18rem, (min-width: 640px) 30vw, 45vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        />
+                      </span>
+                      {photograph.caption && (
+                        <span className="mt-3 block text-sm text-charcoal-muted">
+                          {photograph.caption}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
           </div>
         </div>

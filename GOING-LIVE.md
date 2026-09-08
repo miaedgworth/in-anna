@@ -456,10 +456,7 @@ perfectly good — do not feel obliged to hunt down logos.
 
 1. **+ Add a piece** → photograph, title, brand from the dropdown, price and a
    short note (`Sizes 8–16 in store`, `One left in 12`).
-2. Tick **Feature on the home page** for the pieces you want in the strip on the
-   home page. It shows four; if you feature fewer, it tops up with the most
-   recent.
-3. New pieces go to the top of the list automatically. Reorder as you like.
+2. New pieces go to the top of the list automatically. Reorder as you like.
 
 Price and note are both optional — leave them blank if you would rather not
 show prices online.
@@ -469,7 +466,8 @@ show prices online.
 `/admin/gallery`
 
 1. **+ Upload photographs** → choose several at once. They upload as you pick
-   them.
+   them. The **first four** in this list are the ones shown on the home page,
+   so drag the ones you want there to the top.
 2. The caption box applies to the whole batch; you can edit each one afterwards
    under **Edit**.
 3. Reorder by dragging or with the arrows.

@@ -18,10 +18,10 @@ in the shop.
 
 | Route      | What it is |
 | ---------- | ---------- |
-| `/`        | Hero, introduction, the four featured New In pieces, brand logo row, Visit Us block with map |
+| `/`        | Hero, introduction, the first four Gallery photographs, brand logo row, Visit Us block with map |
 | `/new-in`  | Every new arrival, newest first |
 | `/brands`  | Every visible brand, with description and website link |
-| `/gallery` | Masonry photo grid with a keyboard-navigable lightbox |
+| `/gallery` | Masonry photo grid with a keyboard-navigable lightbox. Not in the nav — reached from the home page |
 | `/visit`   | Address, opening hours, Google Map, email and phone |
 | `/admin`   | Dashboard — New In, Brands, Gallery, Site settings |
 
