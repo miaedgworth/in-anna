@@ -24,6 +24,18 @@
 }
 
 @layer base {
+  /* The sticky header's full height, border included. The hero subtracts it so
+     it fills exactly the rest of the viewport with no sliver left over. */
+  :root {
+    --header-h: 4.75rem;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --header-h: 4.5rem;
+    }
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;

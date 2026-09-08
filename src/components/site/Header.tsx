@@ -39,7 +39,7 @@ export function Header() {
           : "border-transparent bg-cream/80 backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4 sm:px-8 lg:px-10">
+      <div className="mx-auto flex h-[calc(var(--header-h)-1px)] max-w-6xl items-center justify-between gap-6 px-5 sm:px-8 lg:px-10">
         <Wordmark className="text-3xl leading-none sm:text-4xl" />
 
         <nav aria-label="Primary" className="hidden md:block">

@@ -18,7 +18,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ------------------------------------------------------------ hero */}
-      <section className="relative flex w-full min-h-[32rem] items-center justify-center overflow-hidden sm:min-h-[calc(100svh-5.5rem)] lg:aspect-[1320/971] lg:min-h-[30rem] lg:max-h-[calc(100svh-5.5rem)]">
+      <section className="relative flex h-[calc(100svh-var(--header-h))] min-h-[26rem] w-full items-center justify-center overflow-hidden">
         {/* On wide screens the photograph is shown whole rather than cropped, so
             the bags on the lower rail stay in frame. A blurred copy fills
             whatever is left at the sides instead of flat letterbox bars. */}
@@ -45,7 +45,7 @@ export default async function HomePage() {
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-b from-charcoal/45 via-charcoal/25 to-charcoal/55"
         />
-        <div className="relative px-6 py-24 text-center sm:py-28">
+        <div className="relative px-6 py-10 text-center">
           <h1>
             <span className="sr-only">{business.name}</span>
             <Wordmark
