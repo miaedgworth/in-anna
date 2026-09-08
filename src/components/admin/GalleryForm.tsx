@@ -46,7 +46,7 @@ export function GalleryEditForm({ image }: { image: GalleryValues }) {
     <form action={action} className="space-y-4">
       <input type="hidden" name="id" value={image.id} />
       <FormMessage state={state} />
-      <ImageField name="imageUrl" label="Photograph *" defaultValue={image.imageUrl} required />
+      <ImageField name="imageUrl" label="Photograph" defaultValue={image.imageUrl} required />
       <div>
         <label htmlFor={`gallery-caption-${image.id}`} className="admin-label">
           Caption

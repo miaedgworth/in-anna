@@ -31,7 +31,7 @@ export function NewInForm({ item, brands }: { item?: NewInValues; brands: BrandO
 
       <FormMessage state={state} />
 
-      <ImageField name="imageUrl" label="Photograph *" defaultValue={item?.imageUrl} required />
+      <ImageField name="imageUrl" label="Photograph" defaultValue={item?.imageUrl} required />
 
       <div>
         <label htmlFor={`item-title-${key}`} className="admin-label">
