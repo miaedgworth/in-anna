@@ -21,7 +21,7 @@ in the shop.
 | `/`        | Hero, introduction, the first four Gallery photographs, brand logo row, Visit Us block with map |
 | `/new-in`  | Every new arrival, newest first |
 | `/brands`  | Every visible brand, with description and website link |
-| `/gallery` | Masonry photo grid with a keyboard-navigable lightbox. Not in the nav — reached from the home page |
+| `/gallery` | Masonry photo grid with a keyboard-navigable lightbox |
 | `/visit`   | Address, opening hours, Google Map, email and phone |
 | `/admin`   | Dashboard — New In, Brands, Gallery, Site settings |
 

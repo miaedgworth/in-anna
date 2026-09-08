@@ -274,43 +274,6 @@ export async function reorder(kind: OrderKind, ids: string[]): Promise<ActionSta
   });
 }
 
-/** The touch-friendly ↑ / ↓ buttons next to every row. */
-export async function move(formData: FormData): Promise<void> {
-  await guarded(async () => {
-    const kind = String(formData.get("kind") ?? "") as OrderKind;
-    const id = String(formData.get("id") ?? "");
-    const direction = String(formData.get("direction") ?? "");
-    if (!KINDS.includes(kind) || !id) return fail("Unknown list.");
-
-    // Read the list in exactly the order the admin page shows it.
-    const rows =
-      kind === "brand"
-        ? await prisma.brand.findMany({
-            orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-            select: { id: true },
-          })
-        : kind === "newIn"
-          ? await prisma.newInItem.findMany({
-              orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-              select: { id: true },
-            })
-          : await prisma.galleryImage.findMany({
-              orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-              select: { id: true },
-            });
-
-    const ids = rows.map((r) => r.id);
-    const from = ids.indexOf(id);
-    const to = direction === "up" ? from - 1 : from + 1;
-    if (from === -1 || to < 0 || to >= ids.length) return ok("No change.");
-
-    [ids[from], ids[to]] = [ids[to], ids[from]];
-    await writeOrder(kind, ids);
-    refresh(TAG_FOR[kind]);
-    return ok("Order saved.");
-  });
-}
-
 /* ---------------------------------------------------------------- settings */
 
 export async function saveSettings(_prev: ActionState, formData: FormData): Promise<ActionState> {
