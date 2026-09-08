@@ -8,8 +8,7 @@ area at `/admin` for adding new arrivals, brands and photographs from a phone
 in the shop.
 
 - **Stack** — Next.js 15 (App Router, TypeScript), Tailwind CSS v4,
-  Postgres on Neon via Prisma, NextAuth (Auth.js v5), Vercel Blob for uploads,
-  Resend for the contact form.
+  Postgres on Neon via Prisma, NextAuth (Auth.js v5), Vercel Blob for uploads.
 - **Lighthouse (mobile, production build)** — performance 96–98,
   accessibility 100, best practices 100, SEO 100 across all five public pages.
 
@@ -23,7 +22,7 @@ in the shop.
 | `/new-in`  | Every new arrival, newest first |
 | `/brands`  | Every visible brand, with description and website link |
 | `/gallery` | Masonry photo grid with a keyboard-navigable lightbox |
-| `/visit`   | Address, opening hours, Google Map, contact form |
+| `/visit`   | Address, opening hours, Google Map, email and phone |
 | `/admin`   | Dashboard — New In, Brands, Gallery, Site settings |
 
 `robots.txt`, `sitemap.xml`, per-page Open Graph tags and `LocalBusiness`
@@ -79,9 +78,6 @@ Every variable, with what happens if it is missing, is in
 | `ADMIN_EMAIL` | yes | The one admin account |
 | `ADMIN_PASSWORD_HASH` | yes | From `npm run hash` |
 | `BLOB_READ_WRITE_TOKEN` | production | Vercel Blob. Empty in dev → uploads are written to `/public/uploads` |
-| `RESEND_API_KEY` | optional | Empty → contact-form messages are logged to the server console and the visitor still sees the thank-you |
-| `CONTACT_FROM_EMAIL` | optional | Must be a domain verified in Resend |
-| `CONTACT_TO_EMAIL` | optional | Defaults to `hello@inannaboutique.co.uk` |
 | `NEXT_PUBLIC_SITE_URL` | production | Canonical URL, used in metadata, sitemap and JSON-LD |
 
 ---
@@ -149,7 +145,7 @@ src/app/(site)/               Public pages
 src/app/admin/                Login, dashboard, the three editors, settings
 src/app/admin/actions.ts      All create / update / delete / reorder server actions
 src/app/api/upload/           Image upload endpoint (Vercel Blob, or /public/uploads in dev)
-src/components/site/          Public UI — header, footer, cards, lightbox, contact form
+src/components/site/          Public UI — header, footer, cards, lightbox, visit details
 src/components/admin/         Admin UI — forms, image fields, sortable list
 src/lib/business.ts           Address, phone, hours, geo
 src/lib/setting-definitions.ts Editable site copy and its defaults

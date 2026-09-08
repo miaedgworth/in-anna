@@ -11,9 +11,7 @@ Roughly 45 minutes, most of it waiting for things to deploy.
 > complete**, and you can skip them. The Vercel project `inanna-boutique`
 > exists, is linked to this repository, and has its environment variables set.
 >
-> What is left: the Blob store (step 7), the first deployment (step 10), the
-> contact form (step 11), the real photographs (step 12), your real content
-> (step 13) and the domain (step 14).
+> What is left: your real content (step 13) and the domain (step 14).
 
 **Contents**
 
@@ -27,7 +25,7 @@ Roughly 45 minutes, most of it waiting for things to deploy.
 8. [Add the rest of the environment variables](#8-add-the-rest-of-the-environment-variables)
 9. [Create the database tables](#9-create-the-database-tables)
 10. [Deploy and sign in](#10-deploy-and-sign-in)
-11. [Set up the contact form (Resend)](#11-set-up-the-contact-form-resend)
+11. [Enquiries — no contact form](#11-enquiries--no-contact-form)
 12. [Replace the placeholder photographs](#12-replace-the-placeholder-photographs)
 13. [Fill in the real content](#13-fill-in-the-real-content)
 14. [Connect the domain](#14-connect-the-domain)
@@ -45,7 +43,6 @@ Accounts — all have a free tier that is plenty for a shop website:
 | GitHub | You already have this — the code lives at `miaedgworth/in-anna` | — |
 | Vercel | Hosts the website | <https://vercel.com/signup> — choose **Continue with GitHub** |
 | Neon | The database | You will create this *through* Vercel in step 6 |
-| Resend | Sends contact-form emails | <https://resend.com/signup> (step 11 — you can skip it at first) |
 
 Also have to hand:
 
@@ -278,9 +275,6 @@ each, tick **Production**, **Preview** and **Development**.
 | `DIRECT_URL` | copied by hand | step 6 |
 | `BLOB_READ_WRITE_TOKEN` | added by Vercel Blob | step 7 |
 | `NEXT_PUBLIC_SITE_URL` | `https://www.inannaboutique.co.uk` | **add now** |
-| `CONTACT_TO_EMAIL` | `hello@inannaboutique.co.uk` | optional |
-| `RESEND_API_KEY` | *(leave for step 11)* | optional |
-| `CONTACT_FROM_EMAIL` | *(leave for step 11)* | optional |
 
 **About `NEXT_PUBLIC_SITE_URL`:** set it to whatever address the public will
 actually use. If you are not doing the custom domain yet, use the
@@ -385,37 +379,21 @@ If the login is rejected, see [If something goes wrong](#if-something-goes-wrong
 
 ---
 
-## 11. Set up the contact form (Resend)
+## 11. Enquiries — no contact form
 
-Until you do this, the contact form on the Visit Us page still *works* — the
-visitor sees "Thank you" — but the message is only written to the server log,
-not emailed. Do this step before you tell anyone about the site.
+There is no contact form on the site, by design. The Visit Us page offers an
+**Email the shop** button and a tap-to-dial phone number instead, both pointing
+at the details in `src/lib/business.ts`.
 
-1. Sign up at <https://resend.com/signup>.
-2. Go to **Domains** → **Add Domain** and enter `inannaboutique.co.uk`.
-3. Resend shows you three or four DNS records (a `MX`, and some `TXT` records
-   for DKIM and SPF). Add each one exactly as shown in your domain provider's
-   DNS panel — the same place you will go in step 14.
-4. Back in Resend, click **Verify**. It usually takes a few minutes, sometimes
-   up to an hour.
-5. Go to **API Keys** → **Create API Key**. Name it `inanna-website`,
-   permission **Sending access**. Copy the key — it starts `re_` and is only
-   shown once.
-6. In Vercel → Settings → Environment Variables, add:
+That means there is no email service to set up, nothing to configure, and no
+way for a message to be quietly lost — an enquiry arrives in the shop inbox as
+an ordinary email, from the customer's own address, so replying is just
+replying.
 
-   | Name | Value |
-   | ---- | ----- |
-   | `RESEND_API_KEY` | the `re_...` key |
-   | `CONTACT_FROM_EMAIL` | `website@inannaboutique.co.uk` |
-   | `CONTACT_TO_EMAIL` | `hello@inannaboutique.co.uk` |
-
-7. Redeploy (Deployments → ⋯ → Redeploy).
-8. Test it: go to the Visit Us page on the live site, send yourself a message,
-   and check it arrives.
-
-> `CONTACT_FROM_EMAIL` must be at the domain you verified in Resend. It does
-> not need to be a real mailbox — it is only the "from" address. Replies go to
-> whoever filled in the form, because the form sets a reply-to.
+> An earlier version had a form backed by Resend. It was removed because a form
+> that cannot send is worse than no form: it tells the customer their message is
+> on its way when it is not. If you ever want it back, it is in the git history —
+> `git log -- src/components/site/ContactForm.tsx`.
 
 ---
 
@@ -559,7 +537,7 @@ Once the domain is live, walk through this list:
 - [ ] The phone number in the footer dials when tapped on a phone.
 - [ ] The email address opens a mail app when tapped.
 - [ ] The map on the Visit Us page shows 22 Le Pollet.
-- [ ] Send yourself a message through the contact form and check it arrives.
+- [ ] Tap **Email the shop** on the Visit Us page and check it opens a new email to hello@inannaboutique.co.uk.
 - [ ] Open the site on a phone — check the menu button, and tap through a
       gallery photo to the lightbox.
 - [ ] `https://www.inannaboutique.co.uk/sitemap.xml` lists all five pages with

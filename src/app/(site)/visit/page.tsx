@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ContactForm } from "@/components/site/ContactForm";
 import { PageHeader } from "@/components/site/PageHeader";
 import { AddressBlock, HoursTable, MapEmbed } from "@/components/site/VisitDetails";
 import { business } from "@/lib/business";
@@ -53,21 +52,45 @@ export default async function VisitPage() {
               </div>
             </section>
 
-            <div className="mt-12 h-72 overflow-hidden border border-line bg-blush sm:h-96">
-              <MapEmbed />
-            </div>
+            <section className="mt-14 border-t border-line pt-10">
+              <h2 className="eyebrow">Get in touch</h2>
+              <p className="mt-4 max-w-md text-charcoal-muted">
+                Looking for a size, a particular label, or want to arrange a time to come in? Email
+                us and we will come back to you — or ring the shop during opening hours and we will
+                have a proper look for you.
+              </p>
+
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a
+                  href={`mailto:${business.email}`}
+                  className="inline-flex min-h-12 items-center justify-center bg-charcoal px-8 py-3 text-[0.8125rem] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-rose-dark"
+                >
+                  Email the shop
+                </a>
+                <a
+                  href={`tel:${business.phone}`}
+                  className="inline-flex min-h-12 items-center justify-center border border-line px-8 py-3 text-[0.8125rem] uppercase tracking-[0.18em] transition-colors hover:border-gold hover:text-rose-dark"
+                >
+                  {business.phoneDisplay}
+                </a>
+              </div>
+
+              <p className="mt-5 text-sm text-charcoal-muted">
+                Or write to us directly at{" "}
+                <a
+                  href={`mailto:${business.email}`}
+                  className="border-b border-gold pb-px transition-colors hover:text-rose-dark"
+                >
+                  {business.email}
+                </a>
+                .
+              </p>
+            </section>
           </div>
 
-          <section>
-            <h2 className="eyebrow">Send us a message</h2>
-            <p className="mt-4 max-w-md text-charcoal-muted">
-              Looking for a size, a particular label, or want to arrange a time to come in? Write to
-              us here and we will reply by email — or simply ring the shop during opening hours.
-            </p>
-            <div className="mt-8">
-              <ContactForm />
-            </div>
-          </section>
+          <div className="min-h-[24rem] overflow-hidden border border-line bg-blush lg:min-h-full">
+            <MapEmbed />
+          </div>
         </div>
       </div>
     </>

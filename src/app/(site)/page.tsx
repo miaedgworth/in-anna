@@ -18,7 +18,19 @@ export default async function HomePage() {
   return (
     <>
       {/* ------------------------------------------------------------ hero */}
-      <section className="relative flex min-h-[34rem] items-center justify-center overflow-hidden sm:min-h-[calc(100svh-5.5rem)]">
+      <section className="relative flex w-full min-h-[32rem] items-center justify-center overflow-hidden sm:min-h-[calc(100svh-5.5rem)] lg:aspect-[1320/971] lg:min-h-[30rem] lg:max-h-[calc(100svh-5.5rem)]">
+        {/* On wide screens the photograph is shown whole rather than cropped, so
+            the bags on the lower rail stay in frame. A blurred copy fills
+            whatever is left at the sides instead of flat letterbox bars. */}
+        <Image
+          src="/brand/interior.jpg"
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          quality={25}
+          className="hidden scale-110 object-cover blur-2xl lg:block"
+        />
         <Image
           src="/brand/interior.jpg"
           alt="Inside Inanna: rails of womenswear beneath pleated paper pendant lights"
@@ -27,7 +39,7 @@ export default async function HomePage() {
           fetchPriority="high"
           sizes="100vw"
           quality={72}
-          className="object-cover"
+          className="object-cover lg:object-contain"
         />
         <div
           aria-hidden="true"
