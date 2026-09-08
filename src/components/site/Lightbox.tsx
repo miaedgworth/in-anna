@@ -58,6 +58,9 @@ export function GalleryGrid({ images }: { images: LightboxImage[] }) {
 
   return (
     <>
+      {/* A column layout will happily split a tile down the middle of a column
+          break, leaving the photograph in one column and its caption block in
+          the next — hence break-inside-avoid on every tile. */}
       <div className="columns-2 gap-3 sm:gap-4 md:columns-3">
         {images.map((image, index) => (
           <button
@@ -67,7 +70,7 @@ export function GalleryGrid({ images }: { images: LightboxImage[] }) {
               triggerRefs.current[index] = el;
             }}
             onClick={() => setOpenIndex(index)}
-            className="group mb-3 block w-full overflow-hidden bg-blush sm:mb-4"
+            className="group mb-3 block w-full break-inside-avoid overflow-hidden bg-blush sm:mb-4"
           >
             <span className="sr-only">
               View larger: {image.caption || image.imageAlt || `photograph ${index + 1}`}
