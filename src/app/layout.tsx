@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
         {
           url: "/brand/logo.jpg",
           width: 1320,
-          height: 1320,
+          height: 1319,
           alt: `${business.name} wordmark in gold on dusty rose`,
         },
       ],
